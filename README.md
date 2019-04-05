@@ -15,11 +15,11 @@ spark-submit --master local --name WordCountApp --class WordCountScala sparkdemo
 ## Spark组件
 Spark模块
 ------------
-- Spark Core  核心库
-- Spark SQL   SQL
-- Spark Streaming 准实时计算
-- Spark MLlib 机器学习库
-- Spark graph 图计算<br>
+1. Spark Core  核心库
+2. Spark SQL   SQL
+3. Spark Streaming 准实时计算
+4. Spark MLlib 机器学习库
+5. Spark graph 图计算<br>
 
 Spark集群运行
 ------------
