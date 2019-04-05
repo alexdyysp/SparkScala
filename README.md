@@ -35,3 +35,23 @@ start-all.sh
 webui
 ------
 - http://localhost:8080
+
+SparkContext
+-------------
+- spark集群的主要入口点
+```scala
+  SparkConf = new ();
+  conf.setApp(AppName);     
+  conf.setMaster(RunModel); 
+  sc = new SparkContext(conf);
+  RDD<String> rdd1 = sc.textFile(path);
+  val rdd2 = rdd1.flatMap(line => line.split(" "));
+  val rdd3 = rdd2.map();
+  val rdd4 = rdd3.reduceByKey(_ + _);
+  val list = rdd4.collect();
+  list.foreach(println);
+```
+上述代码的简化版：
+```scala
+  sc.textFile(path).flatMap(_.split(" ")).map((_1)).reduceByKey(_ + _).collect().foreach(println);
+```
