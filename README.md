@@ -1,5 +1,6 @@
-# SparkScala
-learning notebook
+# SparkScala learning notebook
+Spark是MapReduce和Hadoop的扩展模式，用于高效计算，主要特征是内存集群计算，加快应用程序的处理速度
+
 
 ## 第一个Spark程序：WordCount
 - IDEA开发环境
