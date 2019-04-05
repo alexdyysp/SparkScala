@@ -10,3 +10,28 @@ learning notebook
 ```cmd
 spark-submit --master local --name WordCountApp --class WordCountScala sparkdemo1-1.0-SNAPSHOT.jar /usr/IDEA/SparkStudy/test.txt
 ```
+
+## Spark组件
+Spark模块
+------------
+- Spark Core  核心库
+- Spark SQL   SQL
+- Spark Streaming 准实时计算
+- Spark MLlib 机器学习库
+- Spark graph 图计算<br>
+
+Spark集群运行
+------------
+- local   本地模式
+- standalone 独立模式
+- yarn    yarn模式
+- mesos   mesos
+
+start-all.sh
+-------------
+- start-master.sh   //rpc端口7077
+- start-slave.sh    //s201:7077
+
+webui
+------
+- http://localhost:8080
