@@ -46,7 +46,7 @@ SparkContext
   sc = new SparkContext(conf);
   RDD<String> rdd1 = sc.textFile(path);
   val rdd2 = rdd1.flatMap(line => line.split(" "));
-  val rdd3 = rdd2.map();
+  val rdd3 = rdd2.map(word=>(word,1));
   val rdd4 = rdd3.reduceByKey(_ + _);
   val list = rdd4.collect();
   list.foreach(println);
