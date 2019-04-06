@@ -1,8 +1,9 @@
 # SparkScala learning notebook
 Spark是MapReduce和Hadoop的扩展模式，用于高效计算，主要特征是内存集群计算，加快应用程序的处理速度
 
-
-## 第一个Spark程序：WordCount
+## Spark 概览
+第一个Spark程序：WordCount
+---------------------------
 - IDEA开发环境
 - Maven管理jar包：包含Spark-core_2.11和scala-2.11.12
 - 使用Maven的package功能将程序打包成jar包
@@ -12,7 +13,6 @@ Spark是MapReduce和Hadoop的扩展模式，用于高效计算，主要特征是
 spark-submit --master local --name WordCountApp --class WordCountScala sparkdemo1-1.0-SNAPSHOT.jar /usr/IDEA/SparkStudy/test.txt
 ```
 
-## Spark组件
 Spark模块
 ------------
 1. Spark Core  核心库
@@ -57,7 +57,8 @@ SparkContext
   sc.textFile(path).flatMap(_.split(" ")).map((_1)).reduceByKey(_ + _).collect().foreach(println);
 ```
 
-# RDD
+## RDD
 RDD是Spark基本数据结构，是不可变数据集。计算时先逻辑分区，每个分区独立在集群节点。
 
-## RDD变换
+### RDD变换
+
