@@ -56,3 +56,8 @@ SparkContext
 ```scala
   sc.textFile(path).flatMap(_.split(" ")).map((_1)).reduceByKey(_ + _).collect().foreach(println);
 ```
+
+# RDD
+RDD是Spark基本数据结构，是不可变数据集。计算时先逻辑分区，每个分区独立在集群节点。
+
+## RDD变换
