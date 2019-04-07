@@ -67,3 +67,47 @@ object HelloWorld {
   }
 }
 ```
+
+- 1 必须给出所有参数类型，但除了递归函数，返回值不一定需要
+    - 递归函数没有返回类型，Scala编译器无法校验结果类型
+- 2 默认参数和带名参数
+    - 调用函数时可以不显示的给出所有参数，则使用默认参数
+```Scala
+def decorate(str: String, left: String = "[", right: String = "]") = 
+    left + str + right
+decorate("Hello", "<<<", ">>>")     // "<<<Hello>>>"
+decorate(left = "<<<", str = "Hello", right = ">>>")    // "<<<Hello>>>"
+decorate("Hello", right = "]<<<")   // 将调用decorate("Hello","[","]<<<")
+```
+- 3 变长参数
+    - 实现一个可接受变长度参数列表的函数
+    ```Scala
+    def sum(args: Int*) = {
+        var result = 0
+        for(arg <- args) result += arg
+        result
+    }
+    
+    val s = sum(1, 4, 9)
+    val t = sum(1 to 5)     //错误，不能是一个整数区间
+    val t = sum(1 to 5: _*) //将1 to 5当参数序列处理
+    ```
+- 4 懒值lazy
+    - 当val被声明懒值lazy时，初始化被推迟，直到首次对他取值
+    - 可以把lazy当做处于val和def的中间状态
+    - 懒值不是没有额外开销，而是每次访问懒值，都会有一个方法被调用，这个方法会以线程安全的检查方式检查该值是否被已初始化
+    ```Scala
+    lazy val helloString="Hello Crazy World"    // 还没初始化
+    helloString     // 被调用时才出现
+    ```
+- 5 异常
+    - 工作机制与Java/C++一样，当抛出异常时，当前运算终止
+    - **Scala没有受检异常**
+    ```Scala
+    if (x >= 0) { sqrt(x)
+    } else throw new IllegalArgumentException("x should not be negative")
+    ```
+    - try/catch与try/finally互补
+    ```Scala
+    try{...}catch{...}finally{...}
+    ```
