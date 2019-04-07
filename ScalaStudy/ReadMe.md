@@ -1,8 +1,8 @@
 # Scala学习笔记
 ## Scala概览
 Scala语言具有如下特点：
-- 1. 纯面向对象编程语言
-    - 1. Encapsulation/information hiding.
+- 1 纯面向对象编程语言
+    - 1 Encapsulation/information hiding.
   2. Inheritance.
   3. Polymorphism/dynamic binding.
   4. All predefined types are objects.
