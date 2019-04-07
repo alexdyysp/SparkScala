@@ -28,3 +28,8 @@ Scala运行于JVM上，能够与JAVA进行互操作，具有与JAVA一样的平�
 4. Scala语法的简洁
 下面给的是java的hadoop wordcount代码及spark wordcount代码 
 
+1. Item 1
+1. Item 2
+1. Item 3
+   1. Item 3a
+   1. Item 3b
