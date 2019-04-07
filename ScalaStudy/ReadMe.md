@@ -6,7 +6,7 @@ Scala语言具有如下特点：
     - 2 Inheritance.
     - 3 Polymorphism/dynamic binding.
     - 4 All predefined types are objects.
-    - 5 All operations are performed by sending messages to objects.
+    - 5 All operations are performed by sending messages to objects.
     - 6 All user-defined types are objects.
 
 - 二 函数式编程语言
@@ -26,6 +26,5 @@ Scala语言具有如下特点：
     - Scala运行于JVM上，能够与JAVA进行互操作，具有与JAVA一样的平台移植性
 
 - 五 Scala语法的简洁
-    - 下面给的是java的hadoop wordcount代码及spark wordcount代码 
-
-
+    - 下面给的是java的hadoop wordcount代码及spark wordcount代码 ：
+    ![Image of WordCount](https://octodex.github.com/images/yaktocat.png)
