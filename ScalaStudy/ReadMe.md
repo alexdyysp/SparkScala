@@ -27,4 +27,4 @@ Scala语言具有如下特点：
 
 - 五 Scala语法的简洁
     - 下面给的是java的hadoop wordcount代码及spark wordcount代码 ：
-    ![Image of WordCount](https://octodex.github.com/images/yaktocat.png)
+    ![Image of WordCount](https://github.com/dyywinner/SparkScala/blob/master/IMAGE/WordCount.png)
