@@ -53,5 +53,5 @@ counter = 1         // change the variable
 // multiply 
 val xmax, ymax = 100
 // greeting
-var greeting, messege: String = null
+var greeting, messege: String = null    //字符串类型被初始化为null
 ```
