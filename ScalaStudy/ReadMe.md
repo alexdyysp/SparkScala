@@ -55,3 +55,15 @@ val xmax, ymax = 100
 // greeting
 var greeting, messege: String = null    //字符串类型被初始化为null
 ```
+### 函数function
+Scala用以下方法进行函数定义：
+![Image of WordCount](https://img-blog.csdn.net/20150818092829083)
+接下来就让我们愉快地写个HelloWord(至少要精通各种编程语言的Helloworld写法吧！)：
+```Scala
+//scala应用程序同样采用main方法作为应用程序的入口
+object HelloWorld {
+  def main(args: Array[String]): Unit = {
+    println("Hello World")
+  }
+}
+```
