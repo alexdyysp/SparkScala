@@ -146,7 +146,10 @@ decorate("Hello", right = "]<<<")   // 将调用decorate("Hello","[","]<<<")
     Scala中的Array以Java中的Array方式实现
     ```
 - 2 变长数组 ArrayBuffer
-    - 
+    - 引入scala.collection.mutable.ArrayBuffer
+    - += 与 ++=
+    - trimEnd
+    string 类型的 ArrayBuffer
     ```scala
     //要使用ArrayBuffer，先要引入scala.collection.mutable.ArrayBuffer
     scala> import scala.collection.mutable.ArrayBuffer
@@ -186,4 +189,36 @@ decorate("Hello", right = "]<<<")   // 将调用decorate("Hello","[","]<<<")
     scala> strArrayVar
     res69: scala.collection.mutable.ArrayBuffer[String] = ArrayBuffer(Hello, World,
     Programmer, Wllcome, To, XueTuWuYou)
+    ```
+    int 类型的 ArrayBuffer
+    ```scala
+    //创建整型数组缓冲
+    scala> var intArrayVar=ArrayBuffer(1,1,2)
+    intArrayVar: scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(1, 1, 2)
+
+    //在数组索引为0的位置插入元素6
+    scala> intArrayVar.insert(0,6)
+
+    scala> intArrayVar
+    res72: scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(6, 1, 1, 2)
+
+    //在数组索引为0的位置插入元素7,8,9
+    scala> intArrayVar.insert(0,7,8,9)
+
+    scala> intArrayVar
+    res74: scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(7, 8, 9, 6, 1, 1,2)
+
+    //从索引0开始，删除4个元素
+    scala> intArrayVar.remove(0,4)
+
+    scala> intArrayVar
+    res77: scala.collection.mutable.ArrayBuffer[Int] = ArrayBuffer(1, 1, 2)
+
+    //转成定长数组
+    scala> intArrayVar.toArray
+    res78: Array[Int] = Array(1, 1, 2)
+
+    //将定长数组转成ArrayBuffer
+    scala> res78.toBuffer
+    res80: scala.collection.mutable.Buffer[Int] = ArrayBuffer(1, 1, 2)
     ```
