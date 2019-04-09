@@ -362,5 +362,159 @@ decorate("Hello", right = "]<<<")   // 将调用decorate("Hello","[","]<<<")
     //转换成数组
     scala> nums.toArray
     res134: Array[Int] = Array(1, 2, 3, 4)
-
     ```
+### 函数与闭包
+#### 函数字面量（值函数）
+- 函数字面量（function literal），也称值函数（function values），指的是函数可以赋值给变量
+  - 符号 => 左侧的表示输入，右侧表示转换操作
+    ```scala
+    scala> val increase=(x:Int)=>x+1
+    increase: Int => Int = <function1>
+
+    scala> println(increase(10))
+    11
+    ```
+- 函数可以进一步简化
+```scala
+
+//花括方式（写法3）
+scala> Array(1,2,3,4).map{(x:Int)=>x+1}.mkString(",")
+res25: String = 2,3,4,5
+
+//省略.的方式（写法4)
+scala> Array(1,2,3,4) map{(x:Int)=>x+1} mkString(",")
+res26: String = 2,3,4,5
+
+
+//参数类型推断写法（写法5）
+scala> Array(1,2,3,4) map{(x)=>x+1} mkString(",")
+res27: String = 2,3,4,5
+
+//函数只有一个参数的话，可以省略()（写法6）
+scala> Array(1,2,3,4) map{x=>x+1} mkString(",")
+res28: String = 2,3,4,5
+
+//如果参数右边只出现一次，则可以进一步简化（写法7）
+scala> Array(1,2,3,4) map{_+1} mkString(",")
+res29: String = 2,3,4,5
+
+
+ //值函数简化方式
+ //val fun0=1+_，该定义方式不合法，因为无法进行类型推断
+scala> val fun0=1+_
+<console>:10: error: missing parameter type for expanded function ((x$1) => 1
+x$1))
+
+//值函数简化方式（正确方式）    
+scala>  val fun1=1+(_:Double)
+un1: Double => Double = <function1>
+
+scala> fun1(999)
+es30: Double = 1000.0
+
+//值函数简化方式（正确方式2）  
+scala> val fun2:(Double)=>Double=1+_
+fun2: Double => Double = <function1>
+
+scala> fun2(200)
+res31: Double = 201.0
+```
+#### 闭包 Closure
+- 依照函数字面量在运行时创建的函数值(对象)被称为闭包
+- 通过“捕获”自由变量的绑定，从而对函数字面量执行的“关闭”行动
+- 封闭项/开放项 closed term/open term
+- 在运行时其值才得以确定
+```scala
+//(x:Int)=>x+more,这里面的more是一个自由变量（Free Variable）,more是一个没有给定含义的不定变量
+//而x则的类型确定、值在函数调用的时候被赋值，称这种变量为绑定变量（Bound Variable）
+scala> (x:Int)=>x+more
+<console>:8: error: not found: value more
+              (x:Int)=>x+more
+                         ^
+scala> var more=1
+more: Int = 1
+
+scala>val fun=(x:Int)=>x+more
+fun: Int => Int = <function1>
+
+scala> fun(10)
+res1: Int = 11
+
+scala> more=10
+more: Int = 10
+
+scala> fun(10)
+res2: Int = 20
+
+ //像这种运行时确定more类型及值的函数称为闭包,more是个自由变量，在运行时其值和类型得以确定
+ //这是一个由开放(free)到封闭的过程，因此称为闭包
+
+scala> val someNumbers = List(-11, -10, -5, 0, 5, 10)
+someNumbers: List[Int] = List(-11, -10, -5, 0, 5, 10)
+
+scala>  var sum = 0
+sum: Int = 0
+
+scala>  someNumbers.foreach(sum += _)
+
+scala> sum
+res8: Int = -11
+
+scala>  someNumbers.foreach(sum += _)
+
+scala> sum
+res10: Int = -22
+
+//下列函数也是一种闭包，因为在运行时其值才得以确定
+def multiplyBy(factor:Double)=(x:Double)=>factor*x
+```
+
+### 类和对象
+#### 类定义、创建对象 
+```scala
+//采用关键字class定义
+class Person {
+  //类成员必须初始化，否则会报错
+  //这里定义的是一个公有成员
+  var name:String=null
+}
+```
+- 虽然我们只在Person类中定义了一个类成员（域）name，类型为String，但Scala会默认帮我们生成name()与name_=（）及构造函数Person()。其中name()对应java中的getter方法，name_=()对应java中的setter方法（由于JVM中不允许出现=，所以用$eq代替。值得注意的是定义的是公有成员，但生成的字节码中却是以私有的方式实现的，生成的getter、setter方法是公有的.因此，**可以直接new操作创建Person对象**
+    ```scala
+    //默认已经有构建函数，所以可以直接new
+    scala> val p=new Person()
+    p: Person = Person@84c504
+
+    //直接调用getter和setter方法
+    //setter方法
+    scala> p.name_=("john")
+    //getter方法
+    scala> p.name
+    res2: String = john
+
+    //直接修改，但其实调用的是p.name_=("jonh")
+    scala> p.name="jonh"
+    p.name: String = jonh
+
+    //getter方法
+    scala> p.name
+    res28: String = jonh
+    ```
+    - 你也可以定义自己的getter和setter方法
+    ```scala
+    class Person{
+      //定义私有成员
+      private var privateName:String=null;
+
+      //getter方法
+      def name=privateName
+      //setter方法
+      def name_=(name:String){
+        this.privateName=name
+      }
+    }
+    ```
+    - 定义成私有成员，其getter、setter方法也是私有的
+    - 直接能访问的是我们自己定义的getter、setter方法
+        - 通过p.name=“john”这种方式进行赋值,调用者并不需要知道是其通过方法调用还是字段访问来进行操作的, 这便是著名的统一访问原则
+    - 如果类的成员域是val类型的变量，则只会生成getter方法
