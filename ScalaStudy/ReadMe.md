@@ -470,6 +470,14 @@ def multiplyBy(factor:Double)=(x:Double)=>factor*x
 ```
 
 ### 类和对象
+- 1 类定义、创建对象 
+- 2 主构造器 
+- 3 辅助构造器
+- 4 单例对象
+- 5 伴生对象与伴生类
+- 6 apply方法
+- 7 应用程序对象
+- 8 抽象类
 #### 类定义、创建对象 
 ```scala
 //采用关键字class定义
@@ -518,3 +526,118 @@ class Person {
     - 直接能访问的是我们自己定义的getter、setter方法
         - 通过p.name=“john”这种方式进行赋值,调用者并不需要知道是其通过方法调用还是字段访问来进行操作的, 这便是著名的统一访问原则
     - 如果类的成员域是val类型的变量，则只会生成getter方法
+        - val变量对应的是java中的final类型变量，只生成了getter方法
+- 如果也需要程序自动会生成getter方法和setter方法，则需要引入 scala.reflect.BeanProperty , 然后采用注解的方式修饰变量
+```scala
+class Person {
+  //类成员必须初始化，否则会报错
+  //@BeanProperty用于生成getXxx,setXxx方法
+  @BeanProperty var name:String="john"
+}
+```
+#### 类主构造器
+- 主构造器的定义与类的定义交织在一直，将构造器参数直接放在类名称之后，如下代码：
+```scala
+//下列代码不但定义了一个类Person，还定义了主构造器，主构造器的参数为String、Int类型
+class Person(val name:String,val age:Int)
+
+//不难看出：上面的代码与下列java语言编写的代码等同
+public class Person{
+  private final String name;
+  private final int age;
+  public Person(String name,int age){
+       this.name=name;
+       this.age=age;
+  }
+  public String getName(){ return name}
+  public int getAge() {return age}
+}
+
+//具体使用操作如下：
+scala> val p=new Person("john",29)
+p: Person = Person@abdc0f
+
+scala> p.name
+res31: String = john
+
+scala> p.age
+res32: Int = 29
+```
+### 辅助构造器
+- 主构造器之外的构造器被称为辅助构造器
+- 1 辅助构建器的名称为this，java中的辅助构造函数与类名相同，这常常会导致修改类名时出现不少问题，scala语言避免了这样的问题
+- 2 调用辅助构造函数时，必须先调用主构造函数或其它已经定义好的构造函数
+```scala
+//禁用主构造函数
+class Person private(var name:String,var age:Int){
+  //类成员
+  private var sex:Int=0
+
+  //辅助构造器
+   def this(name:String,age:Int,sex:Int){
+    this(name,age)
+    this.sex=sex
+   }
+
+}
+```
+### apply方法
+- 通过利用apply方法可以直接利用类名创建对象
+- 例如前面在讲集合的时候，可以通过val intList=List(1,2,3)这种方式创建初始化一个列表对象，其实它相当于调用val intList=List.apply(1,2,3)，只不过val intList=List(1,2,3)这种创建方式更简洁一点，但我们必须明确的是这种创建方式仍然避免不了new，它后面的实现机制仍然是new的方式，只不过我们自己在使用的时候可以省去new的操作。下面就让我们来自己实现apply方法，代码如下：
+```scala
+//定义Student类，该类称为伴生类，因为在同一个源文件里面，我们还定义了object Student
+class Student(var name:String,var age:Int){
+  private var sex:Int=0
+  //直接访问伴生对象的私有成员
+  def printCompanionObject()=println(Student.studentNo)
+
+}
+
+//伴生对象
+object Student {
+  private var studentNo:Int=0;
+  def uniqueStudentNo()={
+    studentNo+=1
+    studentNo
+  }
+  //定义自己的apply方法
+  def apply(name:String,age:Int)=new Student(name,age)
+  def main(args: Array[String]): Unit = {
+    println(Student.uniqueStudentNo())
+    val s=new Student("john",29)
+    //直接访问伴生类Student中的私有成员
+    println(s.sex)
+
+    //直接利用类名进行对象的创建，这种方式实际上是调用前面的apply方法进行实现，这种方式的好处是避免了自己手动new去创建对象
+    val s1=Student("john",29)
+    println(s1.name)
+    println(s1.age)
+  }
+}
+```
+#### 抽象类
+- 抽象类是一种不能被实例化的类，抽象类中包括了若干不能完整定义的方法，这些方法由子类去扩展定义自己的实现
+```scala
+abstract class Animal {
+  //抽象字段(域）
+  //前面我们提到，一般类中定义字段的话必须初始化，而抽象类中则没有这要求
+  var height:Int
+  //抽象方法
+  def eat:Unit
+}
+
+//Person继承Animal，对eat方法进行了实现
+//通过主构造器对height参数进行了初始化
+class Person(var height:Int) extends Animal{
+  //对父类中的方法进行实现，注意这里面可以不加override关键字
+  def eat()={
+    println("eat by mouth")
+  }
+
+}
+
+//通过扩展App创建程序的入口
+object Person extends App{
+  new Person(10).eat()
+}
+```
