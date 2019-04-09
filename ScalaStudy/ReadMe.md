@@ -148,7 +148,7 @@ decorate("Hello", right = "]<<<")   // 将调用decorate("Hello","[","]<<<")
 - 2 变长数组 ArrayBuffer
     - 引入scala.collection.mutable.ArrayBuffer
     - += 与 ++=
-    - trimEnd
+    - trimEnd<br>
     string 类型的 ArrayBuffer
     ```scala
     //要使用ArrayBuffer，先要引入scala.collection.mutable.ArrayBuffer
@@ -221,4 +221,146 @@ decorate("Hello", right = "]<<<")   // 将调用decorate("Hello","[","]<<<")
     //将定长数组转成ArrayBuffer
     scala> res78.toBuffer
     res80: scala.collection.mutable.Buffer[Int] = ArrayBuffer(1, 1, 2)
+    ```
+    多维数组
+    ```scala
+    //定义2行3列数组
+    scala> var multiDimArr=Array(Array(1,2,3),Array(2,3,4))
+    multiDimArr: Array[Array[Int]] = Array(Array(1, 2, 3), Array(2, 3, 4))
+
+    //获取第一行第三列元素
+    scala> multiDimArr(0)(2)
+    res99: Int = 3
+
+    //多维数组的遍历
+    scala> for(i <- multiDimArr) println( i.mkString(","))
+    1,2,3
+    2,3,4
+    ```
+#### List
+- 1 List一但创建，其值不能被改变 
+- 2 List具有递归结构（Recursive Structure),例如链表结构
+  
+  List基本操作
+    ```scala
+    //字符串类型List
+    scala> val fruit=List("Apple","Banana","Orange")
+    fruit: List[String] = List(Apple, Banana, Orange)
+
+    //前一个语句与下面语句等同
+    scala> val fruit=List.apply("Apple","Banana","Orange")
+    fruit: List[String] = List(Apple, Banana, Orange)
+
+    //数值类型List
+    scala> val nums=List(1,2,3,4,5)
+    nums: List[Int] = List(1, 2, 3, 4, 5)
+
+    //多重List，List的子元素为List
+    scala> val diagMatrix=List(List(1,0,0),List(0,1,0),List(0,0,1))
+    diagMatrix: List[List[Int]] = List(List(1, 0, 0), List(0, 1, 0), List(0, 0, 1))
+
+    //遍历List
+    scala> for (i <- nums) println("List Element: "+i)
+    List Element: 1
+    List Element: 2
+    List Element: 3
+    List Element: 4
+    List Element: 5
+    
+    //判断是否为空
+    scala> nums.isEmpty
+    res108: Boolean = false
+
+    //取第一个无素
+    scala> nums.head
+    res109: Int = 1
+
+    //取除第一个元素外剩余的元素，返回的是列表
+    scala> nums.tail
+    res114: List[Int] = List(2, 3, 4)
+
+    //取列表第二个元素
+    scala> nums.tail.head
+    res115: Int = 2
+
+    //插入排序算法实现
+    def isort(xs: List[Int]): List[Int] =
+    if (xs.isEmpty) Nil
+    else insert(xs.head, isort(xs.tail))
+
+    def insert(x: Int, xs: List[Int]): List[Int] =
+    if (xs.isEmpty || x <= xs.head) x :: xs
+    else xs.head :: insert(x, xs.tail)
+
+    //List连接操作
+    scala> List(1,2,3):::List(4,5,6)
+    res116: List[Int] = List(1, 2, 3, 4, 5, 6)
+
+    //取除最后一个元素外的元素，返回的是列表
+    scala> nums.init
+    res117: List[Int] = List(1, 2, 3)
+
+    //取列表最后一个元素
+    scala> nums.last
+    res118: Int = 4
+
+    //列表元素倒置
+    scala> nums.reverse
+    res119: List[Int] = List(4, 3, 2, 1)
+
+    //一些好玩的方法调用
+    scala> nums.reverse.reverse==nums
+    res120: Boolean = true
+
+    scala> nums.reverse.init
+    res121: List[Int] = List(4, 3, 2)
+
+    scala> nums.tail.reverse
+    res122: List[Int] = List(4, 3, 2)
+
+    //丢弃前n个元素
+    scala> nums drop 3
+    res123: List[Int] = List(4)
+
+    scala> nums drop 1
+    res124: List[Int] = List(2, 3, 4)
+
+    //获取前n个元素
+    scala> nums take 1
+    res125: List[Int] = List(1)
+
+    scala> nums.take(3)
+    res126: List[Int] = List(1, 2, 3)
+
+    //将列表进行分割
+    scala> nums.splitAt(2)
+    res127: (List[Int], List[Int]) = (List(1, 2),List(3, 4))
+
+    //前一个操作与下列语句等同
+    scala> (nums.take(2),nums.drop(2))
+    res128: (List[Int], List[Int]) = (List(1, 2),List(3, 4))
+
+    //Zip操作
+    scala> val nums=List(1,2,3,4)
+    nums: List[Int] = List(1, 2, 3, 4)
+
+    scala> val chars=List('1','2','3','4')
+    chars: List[Char] = List(1, 2, 3, 4)
+
+    //返回的是List类型的元组(Tuple）
+    scala> nums zip chars
+    res130: List[(Int, Char)] = List((1,1), (2,2), (3,3), (4,4))
+
+    //List toString方法
+    scala> nums.toString
+    res131: String = List(1, 2, 3, 4)
+
+    //List mkString方法
+    scala> nums.mkString
+    res132: String = 1234
+
+    //转换成数组
+    scala> nums.toArray
+    res134: Array[Int] = Array(1, 2, 3, 4)
+
     ```
