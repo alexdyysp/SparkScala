@@ -2,13 +2,13 @@
 ## Scala概览
 ### Scala语言具有如下特点：
 - 一 纯面向对象编程语言
-    - 1 Encapsulation/information hiding.
-    - 2 Inheritance.
-    - 3 Polymorphism/dynamic binding.
-    - 4 All predefined types are objects.
-    - 5 All operations are performed by sending messages to objects.
-    - 6 All user-defined types are objects.
-
+    - 1 封装/信息隐藏 Encapsulation/information hiding.
+    - 2 继承 Inheritance.
+    - 3 多态/动态绑定 Polymorphism/dynamic binding.
+    - 4 所有预定义类型都是对象 All predefined types are objects.
+    - 5 通过向对象发送消息来执行所有操作 All operations are performed by sending messages to objects.
+    - 6 所有用户定义的类型都是对象 All user-defined types are objects.
+    
 - 二 函数式编程语言
     - 定义：Functional programming is a programming paradigm that treats computation as the evaluation of mathematical functions and avoids state and mutable data.
 
@@ -110,4 +110,80 @@ decorate("Hello", right = "]<<<")   // 将调用decorate("Hello","[","]<<<")
     - try/catch与try/finally互补
     ```Scala
     try{...}catch{...}finally{...}
+    ```
+    
+### Array、List
+#### Array
+- 1 定长数组
+    - Scala中的Array以Java中的Array方式实现
+    - 复杂对象类型在数组定义时被初始化为null，数值型被初始化为0
+    - val数组Array后，Array不可变，但其内容可变
+    ```scala
+    //定义一个长度为10的数值数组
+    scala> val numberArray=new Array[Int](10)
+    numberArray: Array[Int] = Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    //定义一个长度为10的String类型数组
+    scala> val strArray=new Array[String](10)
+    strArray: Array[String] = Array(null, null, null, null, null, null, null, null,
+    null, null)
+
+    //可以看出：复杂对象类型在数组定义时被初始化为null，数值型被初始化为0
+
+    //数组元素赋值
+    scala> strArray(0)="First Element"
+    //需要注意的是，val strArray=new Array[String](10)
+    //这意味着strArray不能被改变，但数组内容是可以改变的
+    scala> strArray
+    res62: Array[String] = Array(First Element, null, null, null, null, null, null,
+    null, null, null)
+
+
+    //另一种定长数组定义方式
+    //这种调用方式其实是调用其apply方法进行数组创建操作
+    scala> val strArray2=Array("First","Second")
+    strArray2: Array[String] = Array(First, Second)
+
+    Scala中的Array以Java中的Array方式实现
+    ```
+- 2 变长数组 ArrayBuffer
+    - 
+    ```scala
+    //要使用ArrayBuffer，先要引入scala.collection.mutable.ArrayBuffer
+    scala> import scala.collection.mutable.ArrayBuffer
+    import scala.collection.mutable.ArrayBuffer
+
+    //创建String类型ArrayBuffer数组缓冲
+    scala> val strArrayVar=ArrayBuffer[String]()
+    strArrayVar: scala.collection.mutable.ArrayBuffer[String] = ArrayBuffer()
+
+    //+=意思是在尾部添加元素
+    scala>     strArrayVar+="Hello"
+    res63: strArrayVar.type = ArrayBuffer(Hello)
+
+    //+=后面还可以跟多个元素的集合
+    //注意操作后的返回值
+    scala> strArrayVar+=("World","Programmer")
+    res64: strArrayVar.type = ArrayBuffer(Hello, World, Programmer)
+
+    //显示完整数组内容
+    scala> strArrayVar
+    res65: scala.collection.mutable.ArrayBuffer[String] = ArrayBuffer(Hello, World,
+    Programmer)
+
+    //++=用于向数组中追加内容，++=右侧可以是任何集合
+    //追加Array数组
+    scala> strArrayVar++=Array("Wllcome","To","XueTuWuYou")
+    res66: strArrayVar.type = ArrayBuffer(Hello, World, Programmer, Wllcome, To, Xue
+    TuWuYou)
+    //追加List
+    scala> strArrayVar++=List("Wellcome","To","XueTuWuYou")
+    res67: strArrayVar.type = ArrayBuffer(Hello, World, Programmer, Wllcome, To, Xue
+    TuWuYou, Wellcome, To, XueTuWuYou)
+
+    //删除末尾n个元素
+    scala> strArrayVar.trimEnd(3)
+
+    scala> strArrayVar
+    res69: scala.collection.mutable.ArrayBuffer[String] = ArrayBuffer(Hello, World,
+    Programmer, Wllcome, To, XueTuWuYou)
     ```
